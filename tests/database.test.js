@@ -1,0 +1,19 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises';import {PGlite} from '@electric-sql/pglite';
+test('Esquema, cálculo en servidor, aislamiento de usuarios, administrador y saldo',async()=>{
+const db=new PGlite();await db.exec(`create role anon;create role authenticated;create schema auth;create table auth.users(id uuid primary key,email text,email_confirmed_at timestamptz,raw_user_meta_data jsonb);create function auth.uid() returns uuid language sql stable as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;grant usage on schema auth to authenticated;grant execute on function auth.uid() to authenticated;`);
+await db.exec(await readFile(new URL('../supabase/schema.sql',import.meta.url),'utf8'));
+const a='11111111-1111-4111-8111-111111111111',b='22222222-2222-4222-8222-222222222222',entry='33333333-3333-4333-8333-333333333333';
+await db.query(`insert into auth.users(id,email,raw_user_meta_data) values ($1,'a@example.test','{"name":"Prueba A"}'),($2,'b@example.test','{"name":"Prueba B"}')`,[a,b]);
+await db.exec(`set role authenticated;set request.jwt.claim.sub='${a}';`);
+const payload={kind:'ordinary',expected:'16:00',end:'20:00',pause:0,nextDay:false,comment:'Prueba'};
+await db.query(`insert into public.entries(id,user_id,date,minutes,payload) values ($1,$2,'2026-01-05',999,$3)`,[entry,a,JSON.stringify(payload)]);
+assert.equal((await db.query('select minutes from public.entries')).rows[0].minutes,240);
+await db.query(`insert into public.rests(user_id,date,minutes,status,payload) values ($1,'2026-01-06',120,'taken','{}')`,[a]);
+await assert.rejects(db.query(`insert into public.rests(user_id,date,minutes,status,payload) values ($1,'2026-01-07',180,'approved','{}')`,[a]),/Saldo insuficiente/);
+await assert.rejects(db.query('delete from public.entries where id=$1',[entry]),/Saldo insuficiente/);
+await assert.rejects(db.query(`insert into public.entries(user_id,date,minutes,payload) values ($1,'2026-01-08',240,$2)`,[b,JSON.stringify(payload)]),/row-level security/);
+await assert.rejects(db.query('insert into public.admins(user_id) values ($1)',[a]),/permission denied/);
+await db.exec(`set request.jwt.claim.sub='${b}';`);assert.equal((await db.query('select * from public.entries')).rows.length,0);assert.equal((await db.query('select * from public.profiles')).rows.length,1);
+await db.exec('reset role;');await db.query('insert into public.admins values ($1)',[b]);await db.exec(`set role authenticated;`);assert.equal((await db.query('select * from public.entries')).rows.length,1);assert.equal((await db.query('select * from public.profiles')).rows.length,2);assert.equal((await db.query('select * from public.audit_log')).rows.length,2);
+await db.close();
+});
