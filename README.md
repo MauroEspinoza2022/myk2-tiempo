@@ -1,3 +1,7 @@
+# myk2 Tiempo · Versión 1
+
+Consulta [ACTIVACION.md](ACTIVACION.md) para activar cuentas y el desarrollador. La web sin Supabase funciona únicamente en modo local.
+
 # myk2 Tiempo · v1.4.0
 
 Aplicación responsive de horas extra y descansos compensatorios. © Ing. Mauro Espinoza · myk2 · mespinozahse@gmail.com · +51 975721020.
@@ -18,7 +22,7 @@ Publicado en https://mauroespinoza2022.github.io/myk2-tiempo/ mediante GitHub Ac
 
 ## Activar cuentas, administrador y sincronización
 
-1. Crear un proyecto Supabase. Ejecutar `supabase/schema.sql`, `supabase/002_admin_analytics.sql` y `supabase/003_identity_fields.sql` y `supabase/004_admin_management.sql` y `supabase/005_company_roles.sql`, una vez y en ese orden, en su SQL Editor. Si ya se ejecutó el esquema inicial, ejecutar las migraciones 002, 003, 004 y 005.
+1. Crear un proyecto Supabase. Ejecutar `supabase/schema.sql`, `supabase/002_admin_analytics.sql` y `supabase/003_identity_fields.sql` y `supabase/004_admin_management.sql` y `supabase/005_company_roles.sql` y `supabase/006_access_hardening.sql`, una vez y en ese orden, en su SQL Editor. Si ya se ejecutó el esquema inicial, ejecutar las migraciones 002, 003, 004, 005 y 006.
 2. Configurar Authentication > URL Configuration con Site URL y Redirect URL: `https://mauroespinoza2022.github.io/myk2-tiempo/`. Mantener confirmación de correo habilitada. Para uso con varios usuarios configurar un proveedor SMTP propio y revisar los límites de envío del servicio.
 3. Configurar `VITE_SUPABASE_URL` y `VITE_SUPABASE_ANON_KEY` con la URL y clave pública publishable/anon. Se pueden guardar como variables del repositorio para Actions; localmente en `.env.local`. Nunca usar service_role ni la contraseña de base de datos en el frontend.
 4. Compilar y publicar nuevamente. Registrarse con `mespinozahse@gmail.com`, confirmar correo y ejecutar el bloque comentado al final del esquema para conceder el rol administrador.
@@ -27,7 +31,7 @@ Publicado en https://mauroespinoza2022.github.io/myk2-tiempo/ mediante GitHub Ac
 
 ## Seguridad y cálculo
 
-RLS en todas las tablas; tabla de administradores sin escritura cliente; cálculo de minutos y validación de saldo en triggers; bloqueo por usuario para serializar cambios de saldo; historial de cambios de jornadas y descansos en `audit_log`. Los privilegios solo se otorgan mediante SQL administrativo. No se publica información personal de los usuarios en GitHub. El reloj de captura usa el reloj del dispositivo convertido a Lima; el backend rechaza fechas futuras según su propio reloj.
+RLS en todas las tablas; tabla de administradores sin escritura cliente; cálculo de minutos y validación de saldo en triggers; bloqueo por usuario para serializar cambios de saldo; historial de cambios de jornadas y descansos en `audit_log`. El desarrollador asigna los roles mediante funciones protegidas en el servidor. No se publica información personal de los usuarios en GitHub. El reloj de captura usa el reloj del dispositivo convertido a Lima; el backend rechaza fechas futuras según su propio reloj.
 
 No es una liquidación laboral ni determina la legalidad de una jornada. El horario de presencia suma 53 h semanales antes de refrigerios. La equivalencia de 8 h y la compensación 1:1 requieren contrastarse con el acuerdo; los domingos y feriados tienen tratamiento específico. Referencia: [guía MTPE](https://www.gob.pe/institucion/mtpe/informes-publicaciones/6199835-como-calcular-las-horas-extras).
 
@@ -45,7 +49,6 @@ El service worker conserva únicamente recursos públicos del sitio. No almacena
 
 ## Panel del dueño y estadísticas
 
-Administración muestra registros totales y recientes, usuarios activos, sesiones, dispositivos, fuentes agregadas y actividad diaria de 30 días. El directorio incluye nombres, apellidos, correo, teléfono, DNI o CE, empresa, jornadas, saldo y acceso a sus registros. Solo un administrador asignado mediante SQL puede consultar el conjunto. Las contraseñas no son visibles; gestión de identidades y eliminación de cuentas desde Supabase.
+Administración muestra registros totales y recientes, usuarios activos, sesiones, dispositivos, fuentes agregadas y actividad diaria de 30 días. El directorio incluye nombres, apellidos, correo, teléfono, DNI o CE, empresa, jornadas, saldo y acceso a sus registros. El desarrollador consulta el conjunto; cada administrador consulta únicamente su empresa. Las contraseñas no son visibles; gestión de identidades y eliminación de cuentas desde Supabase.
 
 La medición utiliza un UUID aleatorio por navegador y uno por pestaña. No guarda IP, ubicación precisa, contraseña ni URL de procedencia completa. Respeta Do Not Track/Global Privacy Control; bloqueadores o varias máquinas alteran los conteos. Dispositivos no equivale a personas y sesiones no equivale a páginas vistas. Se admiten hasta 20 sesiones por identificador en 24 h; estas métricas orientativas no son un sistema antifraude. Solo empiezan a medirse al configurar Supabase. El administrador puede conservar o borrar métricas desde la base de datos según su política de conservación.
-

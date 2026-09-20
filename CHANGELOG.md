@@ -1,5 +1,12 @@
 # Versiones
 
+## Versión 1 · 2026-09-20
+- Numeración pública 1 (paquete 1.0.0), a solicitud del propietario.
+- Permisos verificados por empresa, correo confirmado y aprobaciones administrativas.
+- Estadísticas y trazabilidad filtradas antes de agregarse.
+- Corrección del registro inicial del desarrollador y de listas de empresas vacías.
+- Guía ACTIVACION.md para cuentas reales. Las etiquetas anteriores corresponden a iteraciones de desarrollo.
+
 ## 1.4.0
 - Acceso verificado como desarrollador, administrador o usuario.
 - Empresas administradas por el desarrollador y selección de empresa en el registro.
@@ -35,4 +42,3 @@
 - Cuatro temas de lectura con degradados suaves y selector persistente.
 - Publicación automática con pruebas mediante GitHub Actions.
 - Integración Supabase con registro, acceso, recuperación de contraseña, RLS y administrador; requiere configurar el proyecto externo.
-

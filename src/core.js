@@ -1,4 +1,4 @@
-export const VERSION='1.4.0';
+export const VERSION='1';
 export const defaults={firstName:'',lastName:'',name:'',company:'',documentType:'DNI',documentNumber:'',phone:'',dayHours:8,schedule:['','16:00','16:00','17:00','17:00','17:00','12:00']};
 export function limaNow(now=new Date()){const p=Object.fromEntries(new Intl.DateTimeFormat('en-CA',{timeZone:'America/Lima',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(now).map(x=>[x.type,x.value]));return {date:`${p.year}-${p.month}-${p.day}`,time:`${p.hour}:${p.minute}`};}
 export function weekday(date){return new Date(date+'T12:00:00Z').getUTCDay();}
@@ -12,4 +12,3 @@ export function totals(records,rests){const earned=records.reduce((n,r)=>n+r.min
 export function groupKey(date,mode){if(mode==='month')return date.slice(0,7);if(mode==='day')return date;const d=new Date(date+'T12:00:00Z');d.setUTCDate(d.getUTCDate()-((d.getUTCDay()+6)%7));return d.toISOString().slice(0,10);}
 export function grouped(records,rests,mode){const map=new Map();const get=date=>{const key=groupKey(date,mode);if(!map.has(key))map.set(key,{period:key,earned:0,used:0,reserved:0});return map.get(key);};records.forEach(r=>get(r.date).earned+=r.minutes);rests.forEach(r=>{if(r.status==='taken')get(r.date).used+=r.minutes;if(r.status==='approved')get(r.date).reserved+=r.minutes;});return [...map.values()].sort((a,b)=>a.period.localeCompare(b.period));}
 export const escapeHtml=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-
