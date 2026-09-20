@@ -1,5 +1,11 @@
 # Versiones
 
+## 1.4.0
+- Acceso verificado como desarrollador, administrador o usuario.
+- Empresas administradas por el desarrollador y selección de empresa en el registro.
+- Administradores limitados a los usuarios y registros de su empresa.
+- Recuperación de contraseña por correo y asignación de roles sin exponer contraseñas.
+
 ## 1.3.0
 - Nueva portada de acceso con ingreso, creación de cuenta y opción de uso local.
 - Registro de nombres, apellidos, empresa, DNI o CE y teléfono, con validaciones.

@@ -1,4 +1,4 @@
-export const VERSION='1.3.0';
+export const VERSION='1.4.0';
 export const defaults={firstName:'',lastName:'',name:'',company:'',documentType:'DNI',documentNumber:'',phone:'',dayHours:8,schedule:['','16:00','16:00','17:00','17:00','17:00','12:00']};
 export function limaNow(now=new Date()){const p=Object.fromEntries(new Intl.DateTimeFormat('en-CA',{timeZone:'America/Lima',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(now).map(x=>[x.type,x.value]));return {date:`${p.year}-${p.month}-${p.day}`,time:`${p.hour}:${p.minute}`};}
 export function weekday(date){return new Date(date+'T12:00:00Z').getUTCDay();}
