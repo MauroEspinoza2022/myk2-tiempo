@@ -1,4 +1,4 @@
-# myk2 Tiempo · v1.2.0
+# myk2 Tiempo · v1.3.0
 
 Aplicación responsive de horas extra y descansos compensatorios. © Ing. Mauro Espinoza · myk2 · mespinozahse@gmail.com · +51 975721020.
 
@@ -18,7 +18,7 @@ Publicado en https://mauroespinoza2022.github.io/myk2-tiempo/ mediante GitHub Ac
 
 ## Activar cuentas, administrador y sincronización
 
-1. Crear un proyecto Supabase. Ejecutar `supabase/schema.sql` y después `supabase/002_admin_analytics.sql`, una vez y en ese orden, en su SQL Editor. Si ya se ejecutó el esquema inicial, ejecutar únicamente la migración 002.
+1. Crear un proyecto Supabase. Ejecutar `supabase/schema.sql`, `supabase/002_admin_analytics.sql` y `supabase/003_identity_fields.sql` y `supabase/004_admin_management.sql`, una vez y en ese orden, en su SQL Editor. Si ya se ejecutó el esquema inicial, ejecutar las migraciones 002, 003 y 004.
 2. Configurar Authentication > URL Configuration con Site URL y Redirect URL: `https://mauroespinoza2022.github.io/myk2-tiempo/`. Mantener confirmación de correo habilitada. Para uso con varios usuarios configurar un proveedor SMTP propio y revisar los límites de envío del servicio.
 3. Configurar `VITE_SUPABASE_URL` y `VITE_SUPABASE_ANON_KEY` con la URL y clave pública publishable/anon. Se pueden guardar como variables del repositorio para Actions; localmente en `.env.local`. Nunca usar service_role ni la contraseña de base de datos en el frontend.
 4. Compilar y publicar nuevamente. Registrarse con `mespinozahse@gmail.com`, confirmar correo y ejecutar el bloque comentado al final del esquema para conceder el rol administrador.
@@ -45,6 +45,7 @@ El service worker conserva únicamente recursos públicos del sitio. No almacena
 
 ## Panel del dueño y estadísticas
 
-Administración muestra registros totales y recientes, usuarios activos, sesiones, dispositivos, fuentes agregadas y actividad diaria de 30 días. El directorio incluye nombre, correo, teléfono, empresa, jornadas, saldo y acceso a sus registros. Solo un administrador asignado mediante SQL puede consultar el conjunto. Las contraseñas no son visibles; gestión de identidades y eliminación de cuentas desde Supabase.
+Administración muestra registros totales y recientes, usuarios activos, sesiones, dispositivos, fuentes agregadas y actividad diaria de 30 días. El directorio incluye nombres, apellidos, correo, teléfono, DNI o CE, empresa, jornadas, saldo y acceso a sus registros. Solo un administrador asignado mediante SQL puede consultar el conjunto. Las contraseñas no son visibles; gestión de identidades y eliminación de cuentas desde Supabase.
 
 La medición utiliza un UUID aleatorio por navegador y uno por pestaña. No guarda IP, ubicación precisa, contraseña ni URL de procedencia completa. Respeta Do Not Track/Global Privacy Control; bloqueadores o varias máquinas alteran los conteos. Dispositivos no equivale a personas y sesiones no equivale a páginas vistas. Se admiten hasta 20 sesiones por identificador en 24 h; estas métricas orientativas no son un sistema antifraude. Solo empiezan a medirse al configurar Supabase. El administrador puede conservar o borrar métricas desde la base de datos según su política de conservación.
+

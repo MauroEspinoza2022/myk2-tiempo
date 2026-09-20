@@ -1,5 +1,13 @@
 # Versiones
 
+## 1.3.0
+- Nueva portada de acceso con ingreso, creación de cuenta y opción de uso local.
+- Registro de nombres, apellidos, empresa, DNI o CE y teléfono, con validaciones.
+- Confirmación de contraseña, consentimiento de datos y perfil ampliado.
+- Migración protegida para datos de identidad y directorio administrativo.
+- Panel administrativo de saldos por usuario, solicitudes pendientes y confirmación de descansos.
+- Consolidado Excel general y trazabilidad de cambios con responsable, usuario y estado.
+
 ## 1.2.0
 - PDF ejecutivo con indicadores, gráficos vectoriales, consolidado y trazabilidad de movimientos.
 - Excel con seis hojas, gráficos nativos editables, fórmulas, filtros y estilos profesionales.
@@ -21,3 +29,4 @@
 - Cuatro temas de lectura con degradados suaves y selector persistente.
 - Publicación automática con pruebas mediante GitHub Actions.
 - Integración Supabase con registro, acceso, recuperación de contraseña, RLS y administrador; requiere configurar el proyecto externo.
+
