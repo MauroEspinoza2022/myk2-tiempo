@@ -12,7 +12,7 @@ PDF y Excel incluyen agrupación diaria, semanal (lunes a domingo) o mensual, fi
 
 ## Publicación
 
-El sitio está preparado para GitHub Pages desde la carpeta `/docs` en `main`. El código fuente se mantiene junto con un lockfile. Los despliegues posteriores se pueden automatizar mediante `.github/workflows/pages.yml`; activar Pages con origen GitHub Actions si se usa ese flujo.
+Publicado en https://mauroespinoza2022.github.io/myk2-tiempo/ mediante GitHub Actions. Cada cambio en `main` ejecuta pruebas, compila y publica automáticamente a través de `.github/workflows/pages.yml`. El código fuente se mantiene junto con un lockfile.
 
 `npm ci`, `npm test`, `npm run build`. El resultado está en `dist/`. Sin las variables públicas de Supabase se activa modo local, visible en toda la aplicación. No simula cuentas ni sincronización. Exporta respaldos JSON antes de borrar los datos del navegador. Esos respaldos contienen datos personales.
 
@@ -33,4 +33,6 @@ No es una liquidación laboral ni determina la legalidad de una jornada. El hora
 
 ## Validación
 
-Pruebas automáticas del cálculo: zona horaria, horarios, sábados, domingos, medianoche, pausas, estados de descanso y agrupación semanal. El backend requiere ejecutar el esquema y probar dos usuarios reales y el administrador antes de considerar verificada la operación multiusuario.
+Pruebas automáticas del cálculo: zona horaria, horarios, sábados, domingos, medianoche, pausas, estados de descanso y agrupación semanal. Se verifica el esquema SQL en PGlite con dos usuarios, aislamiento RLS, administrador, recálculo en servidor y saldo insuficiente. Se generan y reabren PDF/Excel para verificar el resumen. La conexión real con Supabase requiere ejecutar el esquema y verificar cuentas y correo en ese servicio.
+
+Temas disponibles en la cabecera: Azul niebla (inicial), Gris metálico, Lavanda suave y Verde natural. La elección se guarda por navegador. Diseño comprobado a 393, 768 y 1440 píxeles; en teléfonos el registro de salida aparece antes de las métricas y los gráficos. Las tablas conservan desplazamiento horizontal cuando es necesario.
