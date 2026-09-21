@@ -1,5 +1,11 @@
 # myk2 Tiempo · Versión 1
 
+## Estado del proyecto · 21 de septiembre de 2026
+
+El proyecto `udfjzmzkimcjuznfjmge` ya tiene instalados el esquema y las migraciones 002–006. No volver a ejecutarlos. Las ocho tablas tienen RLS habilitado y el acceso anónimo a perfiles y roles fue rechazado en la verificación. La configuración pública se incorpora desde el workflow de GitHub Pages; no contiene credenciales administrativas.
+
+La cuenta del propietario fue registrada y requiere confirmar el correo. Falta verificar en el panel Authentication la Site URL y las Redirect URLs de producción, y probar la recuperación de contraseña con entrega real.
+
 La web puede publicarse en GitHub Pages sin un servidor propio. Las cuentas, recuperación por correo, permisos y datos compartidos requieren un proyecto Supabase. El modo local no crea cuentas ni comparte información entre dispositivos.
 
 ## Activar el servicio
